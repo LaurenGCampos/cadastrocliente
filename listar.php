@@ -1,10 +1,16 @@
 <?php
 $arquivo = 'clientes.json';
 
-if (file_exists($arquivo)) {
-    $clientes = json_decode(file_get_contents($arquivo), true) ?? [];
-} else {
-    $clientes = [];
+$clientes = file_exists($arquivo) 
+    ? json_decode(file_get_contents($arquivo), true) 
+    : [];
+
+$busca = $_GET['busca'] ?? '';
+
+if ($busca) {
+    $clientes = array_filter($clientes, function($c) use ($busca) {
+        return stripos($c['nome'], $busca) !== false;
+    });
 }
 ?>
 
@@ -12,16 +18,22 @@ if (file_exists($arquivo)) {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Clientes</title>
 <link rel="stylesheet" href="css/style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<title>Clientes</title>
 </head>
 
 <body>
 
+<div class="navbar">Lista de Clientes</div>
+
 <div class="container">
 
-<h1>Clientes Cadastrados</h1>
+<h1>Clientes</h1>
+
+<form method="GET" class="search-box">
+    <input type="text" name="busca" placeholder="Buscar por nome...">
+</form>
 
 <table>
 <tr>
@@ -29,28 +41,24 @@ if (file_exists($arquivo)) {
     <th>Email</th>
     <th>Telefone</th>
     <th>Tipo</th>
+    <th>Ações</th>
 </tr>
 
-<?php foreach ($clientes as $index => $c): ?>
+<?php foreach ($clientes as $i => $c): ?>
 <tr>
     <td><?= $c['nome'] ?></td>
     <td><?= $c['email'] ?></td>
     <td><?= $c['telefone'] ?? '-' ?></td>
+    <td><?= $c['tipo_cliente'] ?? '-' ?></td>
     <td>
-        <?= isset($c['tipo_cliente']) 
-            ? ($c['tipo_cliente'] == 'pf' ? 'PF' : 'PJ') 
-            : '-' ?>
-    </td>
-
-    <td>
-        <a href="excluir.php?id=<?= $index ?>" 
-onclick="return confirm('Tem certeza que deseja excluir?')" 
-class="btn-excluir">
-Excluir
-</a>
+        <a href="excluir.php?id=<?= $i ?>" 
+           onclick="return confirm('Excluir cliente?')" 
+           class="btn btn-delete">
+           Excluir
+        </a>
     </td>
 </tr>
-<?php endforeach; ?>    
+<?php endforeach; ?>
 
 </table>
 

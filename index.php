@@ -1,44 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Cadastro de Clientes</title>
 <link rel="stylesheet" href="css/style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<title>Cadastro</title>
 </head>
 
 <body>
 
+<div class="navbar">Sistema de Clientes</div>
+
 <div class="container">
 
-    <h1>Cadastro de Clientes</h1>
+<h1>Cadastrar Cliente</h1>
 
-    <form action="cadastrar.php" method="POST">
+<form action="cadastrar.php" method="POST">
+    <input type="text" name="nome" placeholder="Nome" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="telefone" placeholder="Telefone">
+    <input type="text" name="endereco" placeholder="Endereço">
 
-        <input type="text" name="nome" placeholder="Nome" required>
+    <select name="tipo_cliente">
+        <option value="">Tipo</option>
+        <option value="pf">Pessoa Física</option>
+        <option value="pj">Pessoa Jurídica</option>
+    </select>
 
-        <input type="email" name="email" placeholder="E-mail" required>
+    <select name="sexo">
+        <option value="">Sexo</option>
+        <option value="masculino">Masculino</option>
+        <option value="feminino">Feminino</option>
+    </select>
 
-        <input type="text" name="telefone" placeholder="Telefone">
+    <button type="submit">Cadastrar</button>
+</form>
 
-        <input type="text" name="endereco" placeholder="Endereço">
-
-        <select name="tipo_cliente" required>
-            <option value="">Tipo de Cliente</option>
-            <option value="pf">Pessoa Física</option>
-            <option value="pj">Pessoa Jurídica</option>
-        </select>
-
-        <div class="radio-group">
-            <label><input type="radio" name="sexo" value="masculino" required> Masculino</label>
-            <label><input type="radio" name="sexo" value="feminino"> Feminino</label>
-        </div>
-
-        <button type="submit">Cadastrar</button>
-
-    </form>
-
-    <a href="listar.php" class="btn-link">Ver Clientes</a>
+<a href="listar.php" class="btn-link">Ver Clientes →</a>
 
 </div>
 
